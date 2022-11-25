@@ -14,11 +14,18 @@ export default {
   actions: {
     addPost({state, commit}, payload){
       return this.$axios.$post(`/posts`, payload).then((post) => {
+        console.log(state.posts,post)
         commit('updatePosts', [...state.posts, post]);
       })
     },
     editPost({state, commit}, payload){
       return this.$axios.$put(`/posts/${payload.id}`, payload).then((post) => {
+        commit('updatePosts', state.posts.map( post => post.id == payload.id ? payload : post));
+      })
+    },
+    edit({state, commit}, payload){
+      return this.$axios.$put(`/posts/${payload.id}`, payload).then((post) => {
+        payload.body.done=false;
         commit('updatePosts', state.posts.map( post => post.id == payload.id ? payload : post));
       })
     },
@@ -28,6 +35,8 @@ export default {
       })
     },
     getPost({state}, postId){
+      console.log(state)
+
       const post = state.posts.find( item => item.id == postId);
       return post ? Promise.resolve(post) : this.$axios.$get(`/posts/${postId}`)
     }

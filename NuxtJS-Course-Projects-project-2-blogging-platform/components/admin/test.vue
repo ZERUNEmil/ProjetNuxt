@@ -8,12 +8,12 @@
         required
       ></v-text-field>
       <ul v-for="(form, i) in form.body" :key="i">
-        <v-text-field
+        <v-textarea
           label="Task"
           v-model="form.value"
           :rules="rules.body"
           id="task"
-        ></v-text-field>
+        ></v-textarea>
       </ul>
       <div id="form"></div>
       <v-btn
