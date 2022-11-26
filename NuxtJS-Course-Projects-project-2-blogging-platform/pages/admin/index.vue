@@ -1,6 +1,8 @@
 <template>
   <div>
-    <v-btn color="deep-purple accent-4" dark  to="/admin/post/add">Add Post</v-btn>
+    <v-btn color="deep-purple accent-4" dark to="/admin/post/add"
+      >Add Post</v-btn
+    >
     <v-row>
       <v-col xs12 sm8 md6 v-for="post in $store.state.posts" :key="post.id">
         <post-card :post="post" :is-admin="true"></post-card>
@@ -10,19 +12,19 @@
 </template>
 
 <script>
-import PostCard from "~/components/post-card.vue";
+import PostCard from "~/components/card.vue";
 
 export default {
   components: {
-    PostCard
+    PostCard,
   },
   head: {
-    title: "Home"
+    title: "Home",
   },
   fetch({ $axios, store }) {
-    return $axios.$get("/posts").then(res => {
+    return $axios.$get("/posts").then((res) => {
       store.commit("updatePosts", res);
     });
-  }
+  },
 };
 </script>

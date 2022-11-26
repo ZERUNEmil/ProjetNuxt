@@ -7,16 +7,18 @@
         :rules="rules.title"
         required
       ></v-text-field>
-      <ul v-for="(form, i) in form.body" :key="i">
+      <ul v-for="(next, i) in form.body" :key="i">
         <v-text-field
           label="Task"
-          v-model="form.value"
+          :value="next.value"
           :rules="rules.body"
           id="task"
+          aria-disabled="false"
         ></v-text-field>
       </ul>
       <div id="form"></div>
       <v-btn
+        class="addsubmit"
         type="submit"
         color="deep-purple accent-4"
         :dark="valid"
@@ -25,21 +27,24 @@
       >
         {{ submitButtonText }}
       </v-btn>
+      <br />
     </v-form>
-    <v-btn
-      type="submit"
-      color="deep-purple accent-4"
-      :dark="valid"
-      :loading="addPostLoading"
-      :disabled="!valid"
-      v-on:click="complexClickHandler()"
-    >
-      Add
-    </v-btn>
+    <div class="addtask">
+      <v-btn
+        type="submit"
+        color="deep-purple accent-4"
+        :dark="valid"
+        :disabled="!valid"
+        v-on:click="complexClickHandler()"
+      >
+        Add Task
+      </v-btn>
+    </div>
   </div>
 </template>
 
 <script>
+import { v4 as uuidv4 } from "uuid";
 export default {
   name: "test",
   mounted() {
@@ -69,9 +74,10 @@ export default {
   methods: {
     complexClickHandler(event) {
       let addField = `
-       <div class="input-group mb-3">
-  <span class="input-group-text" id="basic-addon1">Task</span>
-  <input type="text" id="task" placeholder="Example..." aria-label="Username" aria-describedby="basic-addon1">
+       <div>
+  <span  id="basic-addon1">Task</span>
+  <input type="text" id="task"   v-model="form.body"
+      :rules="rules.body" placeholder="Example..." aria-label="Username" aria-describedby="basic-addon1">
 </div>
 
     `;
@@ -96,6 +102,7 @@ export default {
       let allFieldValue = document.querySelectorAll("#task");
       allFieldValue.forEach((element) => {
         let task = {
+          id: uuidv4(),
           value: element.value,
           done: false,
         };
@@ -127,4 +134,10 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.addtask {
+  position: relative;
+  padding-top: 1%;
+  align-items: flex-end;
+}
+</style>

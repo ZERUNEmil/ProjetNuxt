@@ -6,26 +6,6 @@
       </h4>
       <li class="text--primary" v-for="(next, i) in post.body" :key="i">
         {{ next.value }}
-
-        <v-btn
-          v-if="next.done == true"
-          color="green"
-          text
-          @click="edit(next.id, next.done, post, post.id)"
-          next
-        >
-          Complete
-        </v-btn>
-
-        <v-btn
-          v-if="next.done == false"
-          color="red"
-          text
-          @click="edit(next.id, next.done, post, post.id)"
-          next
-        >
-          Not Complete
-        </v-btn>
       </li>
       <div id="myProgress">
         <div id="myBar" aria-valuenow="24">{{ progression(post) }}%</div>
@@ -127,6 +107,7 @@ export default {
         });
     },
     edit(id, done, postt, idt) {
+      alert(postt.body.length);
       this.deletePost(idt, close);
       postt.id += 1;
       console.log(postt.id);

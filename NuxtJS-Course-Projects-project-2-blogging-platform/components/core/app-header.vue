@@ -22,7 +22,7 @@ export default {
           to: "/"
         },
         {
-          title: "Admin",
+          title: "Create",
           to: "/admin"
         },
       ]
