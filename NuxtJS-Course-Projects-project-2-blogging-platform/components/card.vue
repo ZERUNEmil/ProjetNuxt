@@ -7,9 +7,8 @@
       <li class="text--primary" v-for="(next, i) in post.body" :key="i">
         {{ next.value }}
       </li>
-      <div id="myProgress">
-        <div id="myBar" aria-valuenow="24">{{ progression(post) }}%</div>
-      </div>
+      <v-progress-linear color="green" height="25" :value="progression(post)" >{{Math.ceil(progression(post))}}%</v-progress-linear>
+
     </v-card-text>
     <v-card-actions class="card-actions">
       <template v-if="isAdmin">

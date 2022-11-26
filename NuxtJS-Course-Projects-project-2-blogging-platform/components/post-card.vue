@@ -27,12 +27,11 @@
           Not Complete
         </v-btn>
       </li>
-      <div id="myProgress">
-        <div id="myBar" aria-valuenow="24">{{ progression(post) }}%</div>
-      </div>
+      <v-progress-linear color="green" height="25" :value="progression(post)" >{{Math.ceil(progression(post))}}%</v-progress-linear>
+
     </v-card-text>
     <v-card-actions class="card-actions">
-      <template v-if="isAdmin">
+      <template>
         <v-btn
           :to="`admin/post/${post.id}/edit`"
           edit
@@ -71,11 +70,6 @@
             </v-card>
           </template>
         </app-modal>
-      </template>
-      <template v-else>
-        <v-btn :to="`/post/${post.id}`" text color="deep-purple accent-4">
-          <span @click="updateSelectedPost(post.body)"> Read More </span>
-        </v-btn>
       </template>
     </v-card-actions>
   </v-card>
