@@ -13,10 +13,10 @@
           label="Task"
           :value="next.value"
           :rules="rules.body"
-          id="task"
+          :id="next.id"
           aria-disabled="false"
           prepend-icon="mdi-minus-circle"
-          @click:prepend="deleteTask(form.id)"
+          @click:prepend="deleteTask(next.id,form.id,close)"
 
         >
       </v-text-field>
@@ -111,7 +111,14 @@ export default {
         }
       });
     },
+    deleteTask(taskId,postId,callback){
+      const action = {taskId, postId };
+      this.$store
+        .dispatch("deleteTask", action)
+        .then(callback)
 
+        
+      },
     submit() {
       var oldFieldValue = [];
       let allFieldValue = document.querySelectorAll("#task");
@@ -143,6 +150,7 @@ export default {
       this.$store.dispatch("getPost", this.postId).then((post) => {
         this.form.title = post.title;
         this.form.body = post.body;
+        this.form.id = post.id;
       });
     },
   },
