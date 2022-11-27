@@ -4,9 +4,10 @@
       <h4 class="card-title display-1 text--primary">
         {{ post.title }}
       </h4>
-      <li class="text--primary" v-for="(next, i) in post.body" :key="i">
-        {{ next.value }}
-
+      <li class="text--primary" v-for="(next, i) in post.body" :key="i"> Task:
+        {{ next.value }} 
+        <lu> Assigned to: <span class="badge badge-primary">{{ next.assigned }}</span></lu>
+      
         <v-btn
           v-if="next.done == true"
           color="green"
@@ -179,4 +180,5 @@ export default {
   line-height: 30px;
   color: white;
 }
+
 </style>

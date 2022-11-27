@@ -8,25 +8,22 @@
         required
       ></v-text-field>
       <ul v-for="(next, i) in form.body" :key="i">
-        
         <v-text-field
           label="Task"
           :value="next.value"
           :rules="rules.body"
-          :id="next.id"
           aria-disabled="false"
           prepend-icon="mdi-minus-circle"
-          @click:prepend="deleteTask(next.id,form.id,close)"
-
+          :id="next.id"
+          class="form_task"
+          @click:prepend="deleteTask(form.id)"
         >
-      </v-text-field>
-        
+        </v-text-field>
       </ul>
-      <br>
-      <br>
+      <br />
+      <br />
 
-
-  <label for="checkbox"></label>
+      <label for="checkbox"></label>
       <div id="form"></div>
       <v-btn
         class="addsubmit"
@@ -85,52 +82,73 @@ export default {
   methods: {
     complexClickHandler(event) {
       let addField = `
-       <div>
+       <div class="form_task">
   <span  id="basic-addon1">Task</span>
-  <input type="text" id="task"   v-model="form.body"
+  <input type="text" v-id="form.body.id"   v-model="form.body.body"
       :rules="rules.body" placeholder="Example..." aria-label="Username" aria-describedby="basic-addon1">
-  <input type="text" id="assigned"   v-model="form.assigned"
+  <input type="text" id="assigned"   v-model="form.body.assigned"
       :rules="rules.assigned" placeholder="Assigned to" aria-label="Username" aria-describedby="basic-addon1">    
 </div>
 
     `;
       let formField = document.getElementById("form");
       let oldFieldValue = [];
-      let allFieldValue = document.querySelectorAll("#task");
+      let allFieldValue = document.querySelectorAll(".form_task");
       allFieldValue.forEach((element) => {
-        oldFieldValue.push(element.value);
+        console.log(element);
+        oldFieldValue.push({
+          body: element.children[1].value,
+          assigned: element.children[2].value,
+        });
       });
-    
+
       formField.innerHTML += addField;
 
-      allFieldValue = document.querySelectorAll("#task");
+      allFieldValue = document.querySelectorAll(".form_task");
       allFieldValue.forEach((element) => {
         let value = oldFieldValue.shift();
         if (value !== undefined) {
-          element.value = value;
+          console.log(element);
+          element.children[1].value = value["body"];
+          element.children[2].value = value["assigned"];
         }
       });
     },
-    deleteTask(taskId,postId,callback){
-      const action = {taskId, postId };
-      this.$store
-        .dispatch("deleteTask", action)
-        .then(callback)
 
-        
-      },
     submit() {
+      console.log("heeloo");
       var oldFieldValue = [];
-      let allFieldValue = document.querySelectorAll("#task");
+      let allFieldValue = document.querySelectorAll(".form_task");
+
       allFieldValue.forEach((element) => {
-        let task = {
-          id: uuidv4(),
-          value: element.value,
-          done: false,
-        };
+        let task;
+
+        if (element.children[1].childElementCount!=0) {
+
+
+         let input= element.children[1].querySelector("input");
+         console.log(input.value);
+         console.log(element.children[1]);
+
+          task = {
+            id: element.children[1].id,
+            value: input.value,
+            done: false,
+            assigned: element.children[2].value,
+          };
+        } else {
+         task = {
+            id: uuidv4(),
+            value: element.children[1].value,
+            done: false,
+            assigned: element.children[2].value,
+          };
+        }
+        console.log(task);
         oldFieldValue.push(task);
       });
       this.form.body = oldFieldValue;
+      console.log(this.form.body);
 
       this.addPostLoading = true;
       const action = this.postId
@@ -150,7 +168,6 @@ export default {
       this.$store.dispatch("getPost", this.postId).then((post) => {
         this.form.title = post.title;
         this.form.body = post.body;
-        this.form.id = post.id;
       });
     },
   },
