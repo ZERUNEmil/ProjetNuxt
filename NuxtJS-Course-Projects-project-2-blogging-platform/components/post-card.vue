@@ -144,7 +144,7 @@ export default {
         .dispatch(action.name, action.payload)
         .then(() => {
           //this.$router.push("/admin");
-          this.$router.go("/");
+          //this.$router.go("/");
           //window.location.reload();
             })
         .finally(() => {

@@ -8,26 +8,25 @@
         required
       ></v-text-field>
       <ul v-for="(next, i) in form.body" :key="i">
+        
         <v-text-field
           label="Task"
           :value="next.value"
           :rules="rules.body"
           id="task"
           aria-disabled="false"
-        ></v-text-field>
+          prepend-icon="mdi-minus-circle"
+          @click:prepend="deleteTask(form.id)"
+
+        >
+      </v-text-field>
+        
       </ul>
-      <v-text-field in
-        label="Assigned to"
-        v-model="form.assigned"
-        :rules="rules.assigned"
-        required
-      ></v-text-field>
-      <input type="checkbox" name="Done" id="done" value="done" v-model="selected" />
       <br>
       <br>
 
 
-  <label for="checkbox">{{ checked }}</label>
+  <label for="checkbox"></label>
       <div id="form"></div>
       <v-btn
         class="addsubmit"
@@ -72,7 +71,6 @@ export default {
       },
       rules: {
         title: [(v) => !!v || "Title is required"],
-        assigned: [(v) => !!v || "Assigned person is required"],
       },
     };
   },
@@ -91,16 +89,20 @@ export default {
   <span  id="basic-addon1">Task</span>
   <input type="text" id="task"   v-model="form.body"
       :rules="rules.body" placeholder="Example..." aria-label="Username" aria-describedby="basic-addon1">
+  <input type="text" id="assigned"   v-model="form.assigned"
+      :rules="rules.assigned" placeholder="Assigned to" aria-label="Username" aria-describedby="basic-addon1">    
 </div>
 
     `;
       let formField = document.getElementById("form");
-      var oldFieldValue = [];
+      let oldFieldValue = [];
       let allFieldValue = document.querySelectorAll("#task");
       allFieldValue.forEach((element) => {
         oldFieldValue.push(element.value);
       });
+    
       formField.innerHTML += addField;
+
       allFieldValue = document.querySelectorAll("#task");
       allFieldValue.forEach((element) => {
         let value = oldFieldValue.shift();
@@ -130,7 +132,7 @@ export default {
       this.$store
         .dispatch(action.name, action.payload)
         .then(() => {
-          this.$router.push("/admin");
+          this.$router.push("/");
         })
         .finally(() => {
           this.addPostLoading = false;
