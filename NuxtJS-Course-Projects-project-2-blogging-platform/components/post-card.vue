@@ -143,8 +143,10 @@ export default {
       this.$store
         .dispatch(action.name, action.payload)
         .then(() => {
-          this.$router.push("/admin");
-        })
+          //this.$router.push("/admin");
+          this.$router.go("/");
+          //window.location.reload();
+            })
         .finally(() => {
           this.addPostLoading = false;
         });

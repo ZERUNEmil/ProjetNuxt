@@ -23,7 +23,7 @@ export default {
         },
         {
           title: "Create",
-          to: "/admin"
+          to: "/admin/post/add"
         },
       ]
     };

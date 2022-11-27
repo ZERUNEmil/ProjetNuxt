@@ -16,6 +16,18 @@
           aria-disabled="false"
         ></v-text-field>
       </ul>
+      <v-text-field in
+        label="Assigned to"
+        v-model="form.assigned"
+        :rules="rules.assigned"
+        required
+      ></v-text-field>
+      <input type="checkbox" name="Done" id="done" value="done" v-model="selected" />
+      <br>
+      <br>
+
+
+  <label for="checkbox">{{ checked }}</label>
       <div id="form"></div>
       <v-btn
         class="addsubmit"
@@ -60,6 +72,7 @@ export default {
       },
       rules: {
         title: [(v) => !!v || "Title is required"],
+        assigned: [(v) => !!v || "Assigned person is required"],
       },
     };
   },

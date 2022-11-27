@@ -106,7 +106,6 @@ export default {
         });
     },
     edit(id, done, postt, idt) {
-      alert(postt.body.length);
       this.deletePost(idt, close);
       postt.id += 1;
       console.log(postt.id);

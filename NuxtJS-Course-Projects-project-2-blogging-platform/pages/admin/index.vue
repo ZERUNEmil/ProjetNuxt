@@ -13,7 +13,7 @@
 
 <script>
 import PostCard from "~/components/card.vue";
-
+// A SUPP NE SERT PLUS A RIEN MAIS GARRDE AU CAS OU 2 SEC
 export default {
   components: {
     PostCard,
